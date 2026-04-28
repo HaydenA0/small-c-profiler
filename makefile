@@ -1,6 +1,6 @@
 
 CC = gcc
-CFLAGS = -Wall -Wextra -std=c11 -finstrument-functions -g
+CFLAGS = -Wall -Wextra -std=c11 -finstrument-functions -g -ldl -g -rdynamic
 
 
 SRC_DIR = src
@@ -24,9 +24,10 @@ $(TARGET): $(OBJS)
 	$(CC) $(CFLAGS) -o $@ $^
 
 
-$(BUILD_DIR)/%.o: $(SRC_DIR)/%.c
+$(BUILD_DIR)/%.o: $(SRC_DIR)/%.c makefile
 	@mkdir -p $(BUILD_DIR)
 	$(CC) $(CFLAGS) -c $< -o $@
+
 
 
 run: build
