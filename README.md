@@ -22,5 +22,5 @@ make run
 
 # SHOW CASE 
 
-![show case](./images/show-case.png)
+![show case](./images/caller-prototype.png)
 
