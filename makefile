@@ -1,6 +1,6 @@
 
 CC = gcc
-CFLAGS = -Wall -Wextra -std=c11 -finstrument-functions
+CFLAGS = -Wall -Wextra -std=c11 -finstrument-functions -g
 
 
 SRC_DIR = src
