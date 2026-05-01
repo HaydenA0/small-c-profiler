@@ -6,6 +6,8 @@
 #include <time.h>
 #include <unistd.h>
 
+// BUG : json writing has a small bug where it adds a comma after the last
+
 #define no_attribute __attribute__((no_instrument_function))
 
 static TimeStack stack;
@@ -33,8 +35,8 @@ void no_attribute __cyg_profile_func_enter(void *func, void *caller) {
   push(&stack, start_time);
   if (trace_file) {
     fprintf(trace_file,
-            ",\n{\"name\": \"%s\", \"ph\": \"B\", \"ts\": %llu, \"pid\": 1, "
-            "\"tid\": 1}",
+            "\n{\"name\": \"%s\", \"ph\": \"B\", \"ts\": %llu, \"pid\": 1, "
+            "\"tid\": 1},",
             get_func_name(func), (unsigned long long)start_time);
   }
 }
@@ -45,8 +47,8 @@ void no_attribute __cyg_profile_func_exit(void *func, void *caller) {
   double elapsed = (double)(end_time - start_time) / CLOCKS_PER_SEC;
   if (trace_file) {
     fprintf(trace_file,
-            ",\n{\"name\": \"%s\", \"ph\": \"E\", \"ts\": %llu, \"pid\": 1, "
-            "\"tid\": 1}",
+            "\n{\"name\": \"%s\", \"ph\": \"E\", \"ts\": %llu, \"pid\": 1, "
+            "\"tid\": 1},",
             get_func_name(func), (unsigned long long)end_time);
   }
 }
@@ -59,7 +61,7 @@ __attribute__((constructor)) static void init_profiler() {
 
 __attribute__((destructor)) static void close_profiler() {
   if (trace_file) {
-    fprintf(trace_file, "]\n");
+    fprintf(trace_file, "\n]");
     fclose(trace_file);
     trace_file = NULL;
   }
